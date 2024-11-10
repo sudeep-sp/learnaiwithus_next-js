@@ -1,21 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Turret+Road:wght@200;300;400;500;700;800&display=swap');
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--background: #ffffff;
+	--foreground: #171717;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* @media (prefers-color-scheme: dark) {
+	:root {
+		--background: #0a0a0a;
+		--foreground: #ededed;
+	}
+} */
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+	color: var(--foreground);
+	background: var(--background);
+	/* font-family: "Plus Jakarta Sans", serif; */
+	font-optical-sizing: auto;
+	font-family: "Turret Road", sans-serif;
+	/* font-weight: 500; */
+	font-style: normal;
+}
+
+@keyframes colorChange {
+	0% { color: #4fd1c5; } /* text-teal-300 */
+	33% { color: #d6bcfa; } /* text-purple-300 */
+	66% { color: #faf089; } /* text-yellow-300 */
+	100% { color: #4fd1c5; } /* text-teal-300 */
+}
+
+.animate-color-change {
+	animation: colorChange 3s ease-in-out infinite;
+}
+
+.box-container {
+	@apply w-full h-auto max-w-[1400px] mx-auto;
+}
+
+.boxed-container {
+	@apply w-full h-auto max-w-[900px] mx-auto;
+}
+
+.home-page {
+	height: 100%;
+	min-height: 100vh;
+	background-color: #1b1b1b !important;
 }
