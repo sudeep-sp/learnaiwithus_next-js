@@ -12,9 +12,12 @@ const NavSection = () => {
 			  </button>
 			</div>
 		  </div>
+		  <div className="sticky top-0 w-full bg-gray-900 text-white text-center py-2">
+          The site is under construction
+        </div>
 		  <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
 			<button className="text-white text-sm rounded-full px-8 py-2 transition-all duration-300 hover:bg-red-500 hover:text-white">
-			  Contact Us
+			  Contact 
 			</button>
 		  </div>
 		</div>

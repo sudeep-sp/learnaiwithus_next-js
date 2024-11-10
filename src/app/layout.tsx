@@ -28,9 +28,7 @@ export default function RootLayout({
 		<body
 			className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 		>
-			<div className="sticky top-0 w-full bg-gray-900 text-white text-center py-2">
-          The site is under construction
-        </div>
+			
 			{/* <Navbar /> */}
 			{children}
 		</body>
