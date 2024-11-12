@@ -15,7 +15,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
 	title: "Learn AI with Us...!",
-	description: "Welcome to our AI site. Made with AI & Teach you AI. We will learn & experiment with AI and explore the power of it",
+	description: "LearnAIwithUs is a platform by students, for students, exploring the fields of Artificial Learning (ML & DL), and Data Science. We’re here to make learning collaborative, fun, and open to everyone.",
 };
 
 export default function RootLayout({

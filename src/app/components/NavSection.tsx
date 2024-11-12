@@ -13,7 +13,7 @@ const NavSection = () => {
                     </div>
                 </div>
                 <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
-                    <button className="text-white text-sm rounded-full px-8 py-2 transition-all duration-300 hover:bg-red-500 hover:text-white bg-red-500 bg-opacity-5">
+                    <button className="text-white text-sm rounded-full px-8 py-2 transition-all duration-300 mt-4 sm:mt-0 hover:bg-red-500 hover:text-white bg-red-500 bg-opacity-5">
                         Contact
                     </button>
                 </div>

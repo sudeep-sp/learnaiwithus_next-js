@@ -21,17 +21,17 @@ const LatestBlogs = () => {
     
     return (
         <div className="latest-blogs boxed-container">
-            <h2 className="text-2xl font-bold mt-10 mb-4 text-white">Research</h2>
+            <h2 className="text-2xl font-bold mt-10 mb-4 text-white">Latest Blogs</h2>
             <Swiper
                 spaceBetween={3}
                 slidesPerView={3}
                 scrollbar={{ draggable: true }}
                 breakpoints={{
                     0: {
-                        slidesPerView:1.5,
+                        slidesPerView:1.3,
                     },
                     640: {
-                        slidesPerView: 1.5,
+                        slidesPerView: 1.3,
                     },
                     768: {
                         slidesPerView: 2.5,
