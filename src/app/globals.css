@@ -41,7 +41,7 @@ body {
 }
 
 .boxed-container {
-	@apply w-full h-auto max-w-[900px] mx-auto;
+	@apply w-full h-auto max-w-[900px] mx-auto px-6;
 }
 
 .home-page {
