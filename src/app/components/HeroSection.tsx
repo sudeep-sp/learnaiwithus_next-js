@@ -26,7 +26,7 @@ const HeroSection = () => {
             <div className="relative z-10 text-center p-6 bg-grey bg-opacity-30 md:bg-opacity-20 rounded-lg">
                 <h1 className="text-4xl md:text-6xl font-bold mb-4">Learn <span className='animate-color-change'>AI</span> with Us</h1>
                 <p className="text-xl md:text-xl inline-block mb-2 text-white bg-gray-800 bg-opacity-70 rounded-xl py-2 px-5">
-                    By Student. For Student.
+                    By Students. For Students.
                 </p>
             </div>
         </div>

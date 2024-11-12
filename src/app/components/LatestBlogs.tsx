@@ -28,10 +28,10 @@ const LatestBlogs = () => {
                 scrollbar={{ draggable: true }}
                 breakpoints={{
                     0: {
-                        slidesPerView:1.5,
+                        slidesPerView:1.3,
                     },
                     640: {
-                        slidesPerView: 1.5,
+                        slidesPerView: 1.3,
                     },
                     768: {
                         slidesPerView: 2.5,
