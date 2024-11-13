@@ -11,7 +11,7 @@ const NavSection = () => {
               Blog
             </button>
             <button className="text-white text-sm rounded-full px-10 py-2 transition-all duration-300 hover:bg-teal-500 hover:text-white bg-teal-500 bg-opacity-5">
-              About
+              Insights
             </button>
           </div>
         </div>

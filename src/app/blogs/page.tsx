@@ -1,5 +1,4 @@
 import Navbar from "../components/blogs/Navbar";
-import TabHeader from "../components/blogs/TabHeader";
 import "../globals.css";
 import BlogLayout from "./layouts/BlogLayout";
 
