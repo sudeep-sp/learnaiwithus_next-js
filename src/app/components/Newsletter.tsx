@@ -9,7 +9,11 @@ const Newsletter = () => {
                     <p className="text-base leading-relaxed text-gray-400 mt-2">
                         Stay in the loop! Get updates on new blogs, insights & more
                     </p>
+<<<<<<< HEAD
                     <form className="flex items-center w-full mt-4 max-w-lg" >
+=======
+                    <form className="flex items-center w-full mt-4 md:mt-0 max-w-lg" >
+>>>>>>> 9d95404d8a8a7c0dbaa920637fc86335a55c31fe
                         <input 
                             type="email" 
                             placeholder="Enter your email" 
