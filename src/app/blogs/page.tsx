@@ -1,4 +1,3 @@
-import Navbar from "../components/blogs/Navbar";
 import "../globals.css";
 import BlogLayout from "./layouts/BlogLayout";
 
