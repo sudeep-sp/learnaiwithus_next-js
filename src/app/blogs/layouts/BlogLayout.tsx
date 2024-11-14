@@ -8,6 +8,7 @@ import {
   MdOutlineKeyboardArrowRight,
   MdOutlineKeyboardArrowLeft,
 } from "react-icons/md";
+import LatestBlogs from "@/app/components/blogs/LatestBlogs";
 
 const blogData = [
   {
@@ -407,48 +408,7 @@ const BlogLayout: NextPage = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow bg-gray-50">
-        <section className="py-16 pb-8">
-          <div className="max-w-7xl mx-auto px-4">
-            <h2 className="text-4xl font-bold text-center">
-              Writings from our team
-            </h2>
-            <p className="text-center text-gray-500 mt-4">
-              The latest industry news, interviews, technologies, and resources.
-            </p>
-            <div className="mt-12 relative mx-auto ">
-              <div className="relative overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1485796826113-174aa68fd81b?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Blog image"
-                  className="w-full h-[70vh] object-cover object-center"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-6">
-                  <p className="text-sm text-gray-300">
-                    Olivia Rhye • 20 Jan 2022
-                  </p>
-                  <h3 className="text-2xl font-semibold text-white mt-2">
-                    UX review presentations
-                  </h3>
-                  <p className="text-gray-200 mt-1">
-                    How do you create compelling presentations that wow your
-                    colleagues and impress your managers?
-                  </p>
-                  <div className="mt-4 space-x-2">
-                    <span className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      Design
-                    </span>
-                    <span className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      Research
-                    </span>
-                    <span className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      Presentation
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <LatestBlogs />
         <section className="py-16 pb-8">
           <div className="max-w-7xl mx-auto px-4">
             <h2 className="text-4xl font-bold text-center">

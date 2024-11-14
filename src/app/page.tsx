@@ -1,7 +1,8 @@
 import AboutSection from "./components/AboutSection";
+import BlogPosts from "./components/BlogPosts";
 import Contact from "./components/Contact";
 import HeroSection from "./components/HeroSection";
-import LatestBlogs from "./components/LatestBlogs";
+// import LatestBlogs from "./components/LatestBlogs";
 import NavSection from "./components/NavSection";
 import Newsletter from "./components/Newsletter";
 
@@ -13,7 +14,8 @@ const Home = () => {
 		<HeroSection />
 		<NavSection />
 		<AboutSection />
-		<LatestBlogs />
+		{/* <LatestBlogs /> */}
+		<BlogPosts />
 		<Newsletter />
 		<Contact />
 	</div>

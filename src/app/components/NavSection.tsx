@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const NavSection = () => {
   return (
     <div
@@ -8,7 +10,7 @@ const NavSection = () => {
         <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4">
           <div className="inline-flex space-x-4">
             <button className="text-white text-sm rounded-full px-10 py-2 transition-all duration-300 hover:bg-blue-500 hover:text-white bg-blue-500 bg-opacity-5">
-              Blog
+              <Link href="/blogs">Blogs</Link>
             </button>
             <button className="text-white text-sm rounded-full px-10 py-2 transition-all duration-300 hover:bg-teal-500 hover:text-white bg-teal-500 bg-opacity-5">
               Insights
