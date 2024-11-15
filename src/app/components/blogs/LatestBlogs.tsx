@@ -2,8 +2,32 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/autoplay';
 import { Autoplay } from 'swiper/modules';
+import { BlogPost } from '@/app/lib/@types/types';
+import { getBlogsData } from '@/app/lib/getBlogsData';
+import { useState, useEffect } from 'react';
 
 export default function LatestBlogs() {
+  const [topPosts, setTopPosts] = useState<BlogPost[]>([]);
+
+  useEffect(() => {
+    const fetchTopPosts = async () => {
+      const allPosts = await getBlogsData();
+
+      // Sort by likes and select top 3 posts
+      const sortedPosts = allPosts
+        .sort((a, b) => (b.interactions.likes || 0) - (a.interactions.likes || 0))
+        .slice(0, 3);
+
+      setTopPosts(sortedPosts);
+    };
+
+    fetchTopPosts();
+  }, []);
+
+  if (topPosts.length === 0) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <section className="py-16 pb-8">
       <div className="max-w-7xl mx-auto px-4">
@@ -21,98 +45,33 @@ export default function LatestBlogs() {
             speed={2500}
             className="relative overflow-hidden"
           >
-            {/* Slide 1 */}
-            <SwiperSlide>
-              <div className="relative overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1485796826113-174aa68fd81b?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Blog image"
-                  className="w-full h-[70vh] object-cover object-center"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-6">
-                  <p className="text-sm text-gray-300">Olivia Rhye • 20 Jan 2022</p>
-                  <h3 className="text-2xl font-semibold text-white mt-2">
-                    UX review presentations
-                  </h3>
-                  <p className="text-gray-200 mt-1">
-                    How do you create compelling presentations that wow your colleagues and impress your managers?
-                  </p>
-                  <div className="mt-4 space-x-2">
-                    <span className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      Design
-                    </span>
-                    <span className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      Research
-                    </span>
-                    <span className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      Presentation
-                    </span>
-                  </div>
+            {topPosts.map((post) => (
+          <SwiperSlide key={post.id}>
+            <div className="relative overflow-hidden">
+              <img
+                src={post.featured_img}
+                alt={post.blog_title}
+                className="w-full h-[70vh] object-cover object-center"
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-6">
+                <p className="text-sm text-gray-300">{post.author}</p>
+                <h3 className="text-2xl font-semibold text-white mt-2">{post.blog_title}</h3>
+                <p className="text-gray-200 mt-1">{post.blog_description}</p>
+                <div className="mt-4 space-x-2">
+                  {Array.isArray(post.tags.data) &&
+                    post.tags.data.map((tag: string, index: number) => (
+                      <span
+                        key={index}
+                        className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full text-nowrap"
+                      >
+                        {tag}
+                      </span>
+                    ))}
                 </div>
               </div>
-            </SwiperSlide>
-
-            {/* Slide 2 */}
-            <SwiperSlide>
-              <div className="relative overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1717501218003-3c89682cfb3b?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Blog image 2"
-                  className="w-full h-[70vh] object-cover object-center"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-6">
-                  <p className="text-sm text-gray-300">Alex Tran • 5 Mar 2023</p>
-                  <h3 className="text-2xl font-semibold text-white mt-2">
-                    The Future of Remote Work
-                  </h3>
-                  <p className="text-gray-200 mt-1">
-                    Exploring the latest trends, tools, and challenges in remote work for a globally connected team.
-                  </p>
-                  <div className="mt-4 space-x-2">
-                    <span className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      Remote Work
-                    </span>
-                    <span className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      Productivity
-                    </span>
-                    <span className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      Innovation
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
-
-            {/* Slide 3 */}
-            <SwiperSlide>
-              <div className="relative overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1674027444485-cec3da58eef4?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="Blog image 3"
-                  className="w-full h-[70vh] object-cover object-center"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-6">
-                  <p className="text-sm text-gray-300">Jordan Lee • 12 Feb 2023</p>
-                  <h3 className="text-2xl font-semibold text-white mt-2">
-                    Innovations in AI and Machine Learning
-                  </h3>
-                  <p className="text-gray-200 mt-1">
-                    A look into the advancements in AI technologies shaping the future of industries worldwide.
-                  </p>
-                  <div className="mt-4 space-x-2">
-                    <span className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      AI
-                    </span>
-                    <span className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      Machine Learning
-                    </span>
-                    <span className="inline-block bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">
-                      Tech
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </SwiperSlide>
+            </div>
+          </SwiperSlide>
+        ))}
           </Swiper>
         </div>
       </div>
