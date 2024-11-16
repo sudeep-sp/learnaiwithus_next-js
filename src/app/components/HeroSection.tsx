@@ -1,5 +1,5 @@
 "use client";
-import { EvervaultCard, Icon } from "@/app/components/blogs/Card"; // Assuming you already have this component
+import { EvervaultCard } from "@/app/components/blogs/Card"; // Assuming you already have this component
 
 const HeroSection = () => {
   return (
@@ -19,12 +19,8 @@ const HeroSection = () => {
 
       {/* Fullscreen Hero Card */}
       <div className="absolute inset-0 z-0 flex justify-center items-center w-full h-full transition-shadow duration-300 ease-in-out">
-        <div className="border border-black/[0.2] dark:border-white/[0.2] flex flex-col items-start justify-center w-full h-full relative hover:shadow-xl transition-shadow duration-300 ease-in-out">
+        <div className=" flex flex-col items-start justify-center w-full h-full relative hover:shadow-xl transition-shadow duration-300 ease-in-out">
           {/* Icons in the corners */}
-          <Icon className="absolute h-6 w-6 -top-3 -left-3 dark:text-white text-black" />
-          <Icon className="absolute h-6 w-6 -bottom-3 -left-3 dark:text-white text-black" />
-          <Icon className="absolute h-6 w-6 -top-3 -right-3 dark:text-white text-black" />
-          <Icon className="absolute h-6 w-6 -bottom-3 -right-3 dark:text-white text-black" />
 
           {/* Card Content */}
           <EvervaultCard />

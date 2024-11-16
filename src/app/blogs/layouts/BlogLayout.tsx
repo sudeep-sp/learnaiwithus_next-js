@@ -12,8 +12,6 @@ import {
 import LatestBlogs from "@/app/components/blogs/LatestBlogs";
 import { BlogPost } from "@/app/lib/@types/types"; // Ensure this interface matches your blog schema
 import { getBlogsData } from "@/app/lib/getBlogsData"; // Function to fetch blogs from the backend
-import { Cards } from "./Cards";
-
 
 const BLOGS_PER_PAGE = 6;
 
@@ -95,7 +93,6 @@ const BlogLayout: NextPage = () => {
       <Navbar />
       <main className="flex-grow bg-gray-50">
         <LatestBlogs />
-        <Cards />
         <section className="py-16 pb-8">
           <div className="max-w-7xl mx-auto px-4">
             <h2 className="text-4xl font-bold text-center">
