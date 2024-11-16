@@ -17,6 +17,16 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      animation: {
+        "particle-float": "particle-float 3s infinite ease-in-out",
+      },
+      keyframes: {
+        "particle-float": {
+          "0%": { transform: "translateY(0) scale(1)" },
+          "50%": { transform: "translateY(-30px) scale(1.2)" },
+          "100%": { transform: "translateY(0) scale(1)" },
+        },
+      },
     },
   },
   plugins: [],

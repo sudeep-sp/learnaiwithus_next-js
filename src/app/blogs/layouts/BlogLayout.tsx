@@ -1,379 +1,60 @@
 "use client";
+
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import BlogCard from "@/app/components/blogs/BlogCard";
 import Navbar from "@/app/components/blogs/Navbar";
-import { useMemo } from "react";
 import {
   MdOutlineKeyboardArrowRight,
   MdOutlineKeyboardArrowLeft,
 } from "react-icons/md";
 import LatestBlogs from "@/app/components/blogs/LatestBlogs";
+import { BlogPost } from "@/app/lib/@types/types"; // Ensure this interface matches your blog schema
+import { getBlogsData } from "@/app/lib/getBlogsData"; // Function to fetch blogs from the backend
+import { Cards } from "./Cards";
 
-const blogData = [
-  {
-    title: "UX review presentations",
-    author: "Olivia Rhye",
-    date: "20 Jan 2022",
-    description:
-      "How do you create compelling presentations that wow your colleagues and impress your managers?",
-    tags: ["Research"],
-    image:
-      "https://images.unsplash.com/photo-1717501218347-64853a917fd8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Migrating to Linear 101",
-    author: "Phoenix Baker",
-    date: "19 Jan 2022",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking.",
-    tags: ["Artificial Intelligence", "Machine Learning"],
-    image:
-      "https://images.unsplash.com/photo-1717501220582-af14e7c247b5?q=80&w=2808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Building your API Stack",
-    author: "Lana Steiner",
-    date: "18 Jan 2022",
-    description:
-      "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.",
-    tags: ["Data Science"],
-    image:
-      "https://images.unsplash.com/photo-1717503159960-bf398715c19e?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "UX review presentations",
-    author: "Olivia Rhye",
-    date: "20 Jan 2022",
-    description:
-      "How do you create compelling presentations that wow your colleagues and impress your managers?",
-    tags: ["Research"],
-    image:
-      "https://images.unsplash.com/photo-1717501218347-64853a917fd8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Migrating to Linear 101",
-    author: "Phoenix Baker",
-    date: "19 Jan 2022",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking.",
-    tags: ["Artificial Intelligence", "Machine Learning"],
-    image:
-      "https://images.unsplash.com/photo-1717501220582-af14e7c247b5?q=80&w=2808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Building your API Stack",
-    author: "Lana Steiner",
-    date: "18 Jan 2022",
-    description:
-      "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.",
-    tags: ["Data Science"],
-    image:
-      "https://images.unsplash.com/photo-1717503159960-bf398715c19e?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "UX review presentations",
-    author: "Olivia Rhye",
-    date: "20 Jan 2022",
-    description:
-      "How do you create compelling presentations that wow your colleagues and impress your managers?",
-    tags: ["Research"],
-    image:
-      "https://images.unsplash.com/photo-1717501218347-64853a917fd8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Migrating to Linear 101",
-    author: "Phoenix Baker",
-    date: "19 Jan 2022",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking.",
-    tags: ["Artificial Intelligence", "Machine Learning"],
-    image:
-      "https://images.unsplash.com/photo-1717501220582-af14e7c247b5?q=80&w=2808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Building your API Stack",
-    author: "Lana Steiner",
-    date: "18 Jan 2022",
-    description:
-      "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.",
-    tags: ["Data Science"],
-    image:
-      "https://images.unsplash.com/photo-1717503159960-bf398715c19e?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "UX review presentations",
-    author: "Olivia Rhye",
-    date: "20 Jan 2022",
-    description:
-      "How do you create compelling presentations that wow your colleagues and impress your managers?",
-    tags: ["Research"],
-    image:
-      "https://images.unsplash.com/photo-1717501218347-64853a917fd8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Migrating to Linear 101",
-    author: "Phoenix Baker",
-    date: "19 Jan 2022",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking.",
-    tags: ["Artificial Intelligence", "Machine Learning"],
-    image:
-      "https://images.unsplash.com/photo-1717501220582-af14e7c247b5?q=80&w=2808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Building your API Stack",
-    author: "Lana Steiner",
-    date: "18 Jan 2022",
-    description:
-      "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.",
-    tags: ["Data Science"],
-    image:
-      "https://images.unsplash.com/photo-1717503159960-bf398715c19e?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "UX review presentations",
-    author: "Olivia Rhye",
-    date: "20 Jan 2022",
-    description:
-      "How do you create compelling presentations that wow your colleagues and impress your managers?",
-    tags: ["Research"],
-    image:
-      "https://images.unsplash.com/photo-1717501218347-64853a917fd8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Migrating to Linear 101",
-    author: "Phoenix Baker",
-    date: "19 Jan 2022",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking.",
-    tags: ["Artificial Intelligence", "Machine Learning"],
-    image:
-      "https://images.unsplash.com/photo-1717501220582-af14e7c247b5?q=80&w=2808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Building your API Stack",
-    author: "Lana Steiner",
-    date: "18 Jan 2022",
-    description:
-      "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.",
-    tags: ["Data Science"],
-    image:
-      "https://images.unsplash.com/photo-1717503159960-bf398715c19e?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "UX review presentations",
-    author: "Olivia Rhye",
-    date: "20 Jan 2022",
-    description:
-      "How do you create compelling presentations that wow your colleagues and impress your managers?",
-    tags: ["Research"],
-    image:
-      "https://images.unsplash.com/photo-1717501218347-64853a917fd8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Migrating to Linear 101",
-    author: "Phoenix Baker",
-    date: "19 Jan 2022",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking.",
-    tags: ["Artificial Intelligence", "Machine Learning"],
-    image:
-      "https://images.unsplash.com/photo-1717501220582-af14e7c247b5?q=80&w=2808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Building your API Stack",
-    author: "Lana Steiner",
-    date: "18 Jan 2022",
-    description:
-      "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.",
-    tags: ["Data Science"],
-    image:
-      "https://images.unsplash.com/photo-1717503159960-bf398715c19e?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "UX review presentations",
-    author: "Olivia Rhye",
-    date: "20 Jan 2022",
-    description:
-      "How do you create compelling presentations that wow your colleagues and impress your managers?",
-    tags: ["Research"],
-    image:
-      "https://images.unsplash.com/photo-1717501218347-64853a917fd8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Migrating to Linear 101",
-    author: "Phoenix Baker",
-    date: "19 Jan 2022",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking.",
-    tags: ["Artificial Intelligence", "Machine Learning"],
-    image:
-      "https://images.unsplash.com/photo-1717501220582-af14e7c247b5?q=80&w=2808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Migrating to Linear 101",
-    author: "Phoenix Baker",
-    date: "19 Jan 2022",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking.",
-    tags: ["Artificial Intelligence", "Machine Learning"],
-    image:
-      "https://images.unsplash.com/photo-1717501220582-af14e7c247b5?q=80&w=2808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Building your API Stack",
-    author: "Lana Steiner",
-    date: "18 Jan 2022",
-    description:
-      "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.",
-    tags: ["Data Science"],
-    image:
-      "https://images.unsplash.com/photo-1717503159960-bf398715c19e?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "UX review presentations",
-    author: "Olivia Rhye",
-    date: "20 Jan 2022",
-    description:
-      "How do you create compelling presentations that wow your colleagues and impress your managers?",
-    tags: ["Research"],
-    image:
-      "https://images.unsplash.com/photo-1717501218347-64853a917fd8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Migrating to Linear 101",
-    author: "Phoenix Baker",
-    date: "19 Jan 2022",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking.",
-    tags: ["Artificial Intelligence", "Machine Learning"],
-    image:
-      "https://images.unsplash.com/photo-1717501220582-af14e7c247b5?q=80&w=2808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Building your API Stack",
-    author: "Lana Steiner",
-    date: "18 Jan 2022",
-    description:
-      "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.",
-    tags: ["Data Science"],
-    image:
-      "https://images.unsplash.com/photo-1717503159960-bf398715c19e?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "UX review presentations",
-    author: "Olivia Rhye",
-    date: "20 Jan 2022",
-    description:
-      "How do you create compelling presentations that wow your colleagues and impress your managers?",
-    tags: ["Research"],
-    image:
-      "https://images.unsplash.com/photo-1717501218347-64853a917fd8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Migrating to Linear 101",
-    author: "Phoenix Baker",
-    date: "19 Jan 2022",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking.",
-    tags: ["Artificial Intelligence", "Machine Learning"],
-    image:
-      "https://images.unsplash.com/photo-1717501220582-af14e7c247b5?q=80&w=2808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Building your API Stack",
-    author: "Lana Steiner",
-    date: "18 Jan 2022",
-    description:
-      "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.",
-    tags: ["Data Science"],
-    image:
-      "https://images.unsplash.com/photo-1717503159960-bf398715c19e?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "UX review presentations",
-    author: "Olivia Rhye",
-    date: "20 Jan 2022",
-    description:
-      "How do you create compelling presentations that wow your colleagues and impress your managers?",
-    tags: ["Research"],
-    image:
-      "https://images.unsplash.com/photo-1717501218347-64853a917fd8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Migrating to Linear 101",
-    author: "Phoenix Baker",
-    date: "19 Jan 2022",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking.",
-    tags: ["Artificial Intelligence", "Machine Learning"],
-    image:
-      "https://images.unsplash.com/photo-1717501220582-af14e7c247b5?q=80&w=2808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Building your API Stack",
-    author: "Lana Steiner",
-    date: "18 Jan 2022",
-    description:
-      "The rise of RESTful APIs has been met by a rise in tools for creating, testing, and managing them.",
-    tags: ["Data Science"],
-    image:
-      "https://images.unsplash.com/photo-1717503159960-bf398715c19e?q=80&w=2680&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "UX review presentations",
-    author: "Olivia Rhye",
-    date: "20 Jan 2022",
-    description:
-      "How do you create compelling presentations that wow your colleagues and impress your managers?",
-    tags: ["Research"],
-    image:
-      "https://images.unsplash.com/photo-1717501218347-64853a917fd8?q=80&w=2832&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    title: "Migrating to Linear 101",
-    author: "Phoenix Baker",
-    date: "19 Jan 2022",
-    description:
-      "Linear helps streamline software projects, sprints, tasks, and bug tracking.",
-    tags: ["Artificial Intelligence", "Machine Learning"],
-    image:
-      "https://images.unsplash.com/photo-1717501220582-af14e7c247b5?q=80&w=2808&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-];
 
-// Pagination logic for the new pagination layout
-const generatePaginationButtons = (totalPages: number, currentPage: number) => {
-  const pages = [];
-  if (totalPages <= 5) {
-    for (let i = 1; i <= totalPages; i++) pages.push(i);
-  } else {
-    pages.push(1, 2);
-    if (currentPage > 2 && currentPage < totalPages - 1) {
-      pages.push("...");
-      pages.push(currentPage, "...");
-    } else {
-      pages.push("...");
-    }
-    pages.push(totalPages - 1, totalPages);
-  }
-  return pages;
-};
-
-// Unique tags including "All"
-const uniqueTags = ["All", ...new Set(blogData.flatMap((blog) => blog.tags))];
 const BLOGS_PER_PAGE = 6;
 
 const BlogLayout: NextPage = () => {
+  const [blogData, setBlogData] = useState<BlogPost[]>([]); // Store all blog data
   const [activeTag, setActiveTag] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch blog data on component mount
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        setLoading(true); // Show loading indicator
+        const data = await getBlogsData(); // Fetch blogs from your data fetching function
+        setBlogData(data || []); // Update blog data state
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      } finally {
+        setLoading(false); // Hide loading indicator
+      }
+    };
+
+    fetchBlogs();
+  }, []);
+
+  // Extract and normalize tags
+  const extractTags = (tagsJson: any) => tagsJson?.data || []; // Ensure safe extraction
+
+  // Generate unique tags dynamically from fetched blogs
+  const uniqueTags = useMemo(() => {
+    const allTags = blogData.flatMap((blog) => extractTags(blog.tags));
+    return ["All", ...new Set(allTags)];
+  }, [blogData]);
 
   // Filtered and paginated blog data
   const filteredBlogs =
     activeTag === "All"
       ? blogData
-      : blogData.filter((blog) => blog.tags.includes(activeTag));
+      : blogData.filter((blog) =>
+          extractTags(blog.tags).includes(activeTag)
+        );
 
   const totalPages = Math.ceil(filteredBlogs.length / BLOGS_PER_PAGE);
   const paginatedBlogs = filteredBlogs.slice(
@@ -387,28 +68,33 @@ const BlogLayout: NextPage = () => {
   };
 
   // Generate pagination buttons dynamically
+  const generatePaginationButtons = (totalPages: number, currentPage: number) => {
+    const pages = [];
+    if (totalPages <= 3) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      pages.push(1);
+      if (currentPage > 2) pages.push("...");
+      if (currentPage > 1 && currentPage < totalPages) pages.push(currentPage);
+      if (currentPage < totalPages - 1) pages.push("...");
+      pages.push(totalPages);
+    }
+    return pages;
+  };
+
   const paginationButtons = useMemo(
     () => generatePaginationButtons(totalPages, currentPage),
     [totalPages, currentPage]
   );
-
-  // Pagination logic
-  // const totalPages = Math.ceil(filteredBlogs.length / BLOGS_PER_PAGE);
-  // const paginatedBlogs = filteredBlogs.slice(
-  //   (currentPage - 1) * BLOGS_PER_PAGE,
-  //   currentPage * BLOGS_PER_PAGE
-  // );
-
-  // Handle page changes
-  // const handlePageChange = (page: number) => {
-  //   setCurrentPage(page);
-  // };
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow bg-gray-50">
         <LatestBlogs />
+        <Cards />
         <section className="py-16 pb-8">
           <div className="max-w-7xl mx-auto px-4">
             <h2 className="text-4xl font-bold text-center">
@@ -420,10 +106,10 @@ const BlogLayout: NextPage = () => {
 
             {/* Tabs for filtering */}
             <div className="flex md:justify-center mt-8 overflow-x-auto space-x-4">
-              {uniqueTags.map((tag) => (
+              {uniqueTags.slice(0,5).map((tag) => (
                 <button
                   key={tag}
-                  className={`px-4 py-2 whitespace-nowrap rounded-full ${
+                  className={`px-4 py-2 whitespace-nowrap rounded-full text-sm ${
                     activeTag === tag
                       ? "bg-blue-600 text-white"
                       : "bg-gray-200 text-gray-800"
@@ -439,27 +125,31 @@ const BlogLayout: NextPage = () => {
             </div>
 
             {/* Blog Cards */}
-            <div className="blogs-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-12">
-              {paginatedBlogs.map((blog, index) => (
-                <BlogCard
-                  key={index}
-                  title={blog.title}
-                  author={blog.author}
-                  date={blog.date}
-                  description={blog.description}
-                  tags={blog.tags}
-                  image={blog.image}
-                />
-              ))}
-            </div>
+            {loading ? (
+              <p className="text-center text-gray-600">Loading blogs...</p>
+            ) : (
+              <div className="blogs-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-12">
+                {paginatedBlogs.map((blog, index) => (
+                  <BlogCard
+                    key={index}
+                    title={blog.blog_title} // Match BlogPost properties
+                    author={blog.author}
+                    date={blog.title} // Assuming 'title' is the timestamp (update if needed)
+                    description={blog.blog_description}
+                    tags={extractTags(blog.tags)} // Extract tags from JSON
+                    image={blog.featured_img}
+                  />
+                ))}
+              </div>
+            )}
 
             {/* Pagination Controls */}
             <div className="flex flex-wrap justify-center mt-8 space-x-2">
               <button
-                className={`px-3 py-1 rounded-md appearance-none border-none outline-none ${
+                className={`px-3 py-1 rounded-md appearance-none border-none outline-none hover:text-blue-600 ${
                   currentPage === 1
                     ? "cursor-not-allowed"
-                    : "bg-gray-200 text-gray-800"
+                    : "text-gray-800"
                 }`}
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
@@ -487,10 +177,10 @@ const BlogLayout: NextPage = () => {
               ))}
 
               <button
-                className={`px-1 py-1 rounded-full appearance-none border-none outline-none ${
+                className={`px-1 py-1 rounded-full appearance-none border-none outline-none hover:text-blue-600 ${
                   currentPage === totalPages
                     ? "cursor-not-allowed"
-                    : "bg-gray-200 text-gray-800"
+                    : " text-gray-800"
                 }`}
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}

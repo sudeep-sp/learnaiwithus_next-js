@@ -26,14 +26,14 @@ export default function BlogPosts() {
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl font-bold text-white text-center lg:text-left">Recent blog posts</h2>
 
-        <div className="mt-8 grid lg:grid-cols-[2fr_1fr] gap-8">
+        <div className="mt-8 grid lg:grid-cols-[2fr_1fr] gap-8 -z-0">
           {/* Left column (main post with large image) */}
           <div className="space-y-4">
             <div className="relative aspect-w-16 aspect-h-9">
               <img
                 src={mainPost.featured_img}
                 alt={mainPost.blog_title}
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-cover rounded-lg -z-1"
               />
               <div className="absolute inset-0 bg-black bg-opacity-20 rounded-lg"></div>
             </div>
@@ -59,7 +59,7 @@ export default function BlogPosts() {
                 <img
                   src={post.featured_img}
                   alt={post.blog_title}
-                  className="w-full h-48 sm:h-32 object-cover rounded-lg"
+                  className="w-full h-48 sm:h-32 object-cover rounded-lg -z-0"
                 />
                 <div className="mt-4">
                   <p className="text-gray-400 sm:text-xs">{post.author}</p>

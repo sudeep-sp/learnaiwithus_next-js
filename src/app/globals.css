@@ -3,6 +3,23 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;700;800&display=swap');
 
+@layer utilities {
+	.particle {
+	  @apply absolute w-4 h-4 bg-gradient-to-br from-pink-500 to-blue-500 rounded-full;
+	  animation: particle-float 3s infinite ease-in-out;
+	}
+  
+	.particle:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; }
+	.particle:nth-child(2) { top: 50%; left: 60%; animation-delay: 0.2s; }
+	.particle:nth-child(3) { top: 70%; left: 40%; animation-delay: 0.4s; }
+	.particle:nth-child(4) { top: 10%; left: 70%; animation-delay: 0.6s; }
+	.particle:nth-child(5) { top: 30%; left: 20%; animation-delay: 0.8s; }
+	.particle:nth-child(6) { top: 80%; left: 50%; animation-delay: 1s; }
+	.particle:nth-child(7) { top: 60%; left: 10%; animation-delay: 1.2s; }
+	/* Add more particles here for randomness */
+  }
+  
+
 :root {
 	--background: #ffffff;
 	--foreground: #171717;

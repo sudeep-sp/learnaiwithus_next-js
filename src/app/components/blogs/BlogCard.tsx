@@ -24,14 +24,14 @@ const BlogCard: React.FC<BlogCardProps> = ({
       <div className="py-6">
         <h3 className="text-2xl font-bold">{title}</h3>
         <p className="text-gray-500 text-sm font-bold">
-          {author} - {date}
+          {author}  {date}
         </p>
         <p className="mt-4 text-sm text-gray-700 opacity-75">{description}</p>
         <div className="mt-4">
-          {tags.map((tag) => (
+          {tags.slice(0,3).map((tag) => (
             <span
               key={tag}
-              className="text-xs font-bold text-gray-600 mr-2 border-2 rounded-full px-3 py-1"
+              className="text-xs whitespace-nowrap font-bold text-gray-600 mr-2 border-2 rounded-full px-3 py-1"
             >
               {tag}
             </span>

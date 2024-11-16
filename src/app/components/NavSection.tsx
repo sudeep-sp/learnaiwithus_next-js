@@ -3,7 +3,7 @@ import Link from "next/link";
 const NavSection = () => {
   return (
     <div
-      className="sticky top-0 bg-opacity-70 backdrop-blur-md"
+      className="sticky top-0 bg-opacity-70 backdrop-blur-md z-10"
       style={{ backgroundColor: "rgba(1, 8, 1, 0.7)" }}
     >
       <div className="flex flex-col md:flex-row justify-between p-4 md:px-10 box-container">
