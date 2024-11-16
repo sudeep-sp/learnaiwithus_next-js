@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useRef } from "react";
 import { EvervaultCard, Icon } from "@/app/components/blogs/Card"; // Assuming you already have this component
 
 const HeroSection = () => {
