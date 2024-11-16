@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
@@ -6,7 +7,7 @@ import dynamic from "next/dynamic";
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const BlogEditor = () => {
-  const editor = useRef(null);
+  const editor = useRef<any>(null);
   const [content, setContent] = useState("<p>Start writing your blog here...</p>");
 
   // Jodit editor configuration
