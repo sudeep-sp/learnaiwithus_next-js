@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { FaTimes } from "react-icons/fa";
 import { supabase } from "../lib/supabaseClient";
 import "../globals.css";
-import TestFileUpload from "../components/blogs/TestUploadFile";
 
 
 
