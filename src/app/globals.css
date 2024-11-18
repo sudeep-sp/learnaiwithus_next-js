@@ -32,6 +32,10 @@
 	}
 } */
 
+* {
+	font-family: "Plus Jakarta Sans", sans-serif;
+}
+
 body {
 	color: var(--foreground);
 	background: var(--background);

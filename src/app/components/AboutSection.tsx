@@ -2,7 +2,7 @@ import { FaLinkedin } from "react-icons/fa6";
 
 const AboutSection = () => {
   return (
-    <div className="boxed-container ">
+    <div className="boxed-container " id="about-section">
       <div className="about-section mt-10">
         <h2 className="text-2xl font-bold mb-4 text-white">About</h2>
         <p className="text-base leading-relaxed text-gray-400">

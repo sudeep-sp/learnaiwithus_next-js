@@ -2,7 +2,7 @@
 import AboutSection from "./components/AboutSection";
 import BlogPosts from "./components/BlogPosts";
 import Contact from "./components/Contact";
-import { GoogleGeminiEffectDemo } from "./components/Gemini";
+import { MobileHeroSection } from "./components/MobileHeroSection";
 import HeroSection from "./components/HeroSection";
 import NavSection from "./components/NavSection";
 import Newsletter from "./components/Newsletter";
@@ -19,7 +19,7 @@ const Home = () => {
       {/* VortexDemo displayed on small and medium screens */}
       <div className="block xl:hidden">
         {/* <VortexDemo /> */}
-		<GoogleGeminiEffectDemo />
+		<MobileHeroSection />
       </div>
 		<NavSection />
 		<AboutSection />

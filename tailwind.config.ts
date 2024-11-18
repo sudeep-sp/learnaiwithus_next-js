@@ -19,6 +19,7 @@ export default {
       },
       animation: {
         "particle-float": "particle-float 3s infinite ease-in-out",
+        "bounce": "bounce 1.5s infinite",
       },
       keyframes: {
         "particle-float": {
