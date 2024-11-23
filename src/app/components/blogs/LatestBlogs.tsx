@@ -1,10 +1,13 @@
+"use client";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/autoplay';
-import { Autoplay } from 'swiper/modules';
+import 'swiper/css/effect-fade';
+import { Autoplay, EffectFade } from 'swiper/modules';
 import { BlogPost } from '@/app/lib/@types/types';
 import { getBlogsData } from '@/app/lib/getBlogsData';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 export default function LatestBlogs() {
   const [topPosts, setTopPosts] = useState<BlogPost[]>([]);
@@ -30,23 +33,24 @@ export default function LatestBlogs() {
 
   return (
     <section className="py-16 pb-8">
-      <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-4xl font-bold text-center">Writings from our team</h2>
+      <div className="max-w-6xl mx-auto px-4">
+        {/* <h2 className="text-4xl font-bold text-center">Writings from our team</h2>
         <p className="text-center text-gray-500 mt-4">
           The latest industry news, interviews, technologies, and resources.
-        </p>
+        </p> */}
 
-        <div className="mt-12 relative mx-auto">
+        <div className="mt-8 relative mx-auto">
           <Swiper
-            modules={[Autoplay]}
-            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            modules={[Autoplay, EffectFade]}
+            autoplay
             loop={true}
+            effect={'fade'}
             slidesPerView={1}
-            speed={2500}
             className="relative overflow-hidden"
           >
             {topPosts.map((post) => (
           <SwiperSlide key={post.id}>
+            <Link href={`/blog/${post.id}`}>
             <div className="relative overflow-hidden">
               <img
                 src={post.featured_img}
@@ -70,6 +74,7 @@ export default function LatestBlogs() {
                 </div>
               </div>
             </div>
+            </Link>
           </SwiperSlide>
         ))}
           </Swiper>

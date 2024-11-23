@@ -6,7 +6,7 @@ const Newsletter = () => {
       <div className="container mx-auto">
         <div className=" items-center md:flex-row md:justify-between">
           <h2 className="text-2xl font-bold mb-4 md:mb-0 md:mr-4">
-            Join My Newsletter
+            Join our Newsletter
           </h2>
           <p className="text-base leading-relaxed text-gray-400 mt-2">
             Stay in the loop! Get updates on new blogs, insights & more

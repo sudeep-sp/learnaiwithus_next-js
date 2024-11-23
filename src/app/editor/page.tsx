@@ -1,25 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { FaTimes } from "react-icons/fa";
 import { supabase } from "../lib/supabaseClient";
 import "../globals.css";
-
-
 
 // Dynamically import Jodit editor to avoid SSR issues
 const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const BlogEditor = () => {
   const editor = useRef<any>(null);
-  const [content, setContent] = useState("<p>Start writing your blog here...</p>");
+  const contentRef = useRef("<p>Start writing your blog here...</p>");
+  const titleRef = useRef<HTMLInputElement | null>(null);
+  const authorRef = useRef<HTMLInputElement | null>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
+  const tagInputRef = useRef<HTMLInputElement | null>(null);
+
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState("No file chosen");
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
   const [loading, setLoading] = useState(false);
 
   const addTag = () => {
@@ -69,14 +70,18 @@ const BlogEditor = () => {
         featuredImgUrl = publicUrlData.publicUrl;
       }
 
-      // Prepare the data
+      // Clean up content before saving (trim any unnecessary whitespace)
+      const blogContent = contentRef.current.trim();
+
+      // Prepare the data from refs
       const blogPost = {
         featured_img: featuredImgUrl,
-        blog_title: title,
-        blog_description: content.substring(0, 150), // First 150 chars for description
-        author,
+        blog_title: titleRef.current?.value ?? "",
+        blog_description: descriptionRef.current?.value ?? "",
+        author: authorRef.current?.value ?? "",
         tags: { data: tags },
         interactions: { likes: 0, views: 0 }, // Default interactions
+        blog_content: blogContent,
       };
 
       // Insert data into the database
@@ -98,12 +103,37 @@ const BlogEditor = () => {
     readonly: false,
     height: 600,
     toolbar: true,
+    saveModeInSessionStorage: false,
+    autofocus: false, // Prevent auto-focus on the editor
     showCharsCounter: true,
     showWordsCounter: true,
   };
 
+  const handleEditorChange = (newContent: string) => {
+    // Ensure the content is trimmed when it changes
+    contentRef.current = newContent.trim(); // Trim the content before updating the ref
+  };
+
+  const handleEditorBlur = () => {
+    // Ensure the latest content is stored in the ref and trimmed
+    if (editor.current) {
+      contentRef.current = editor.current?.value.trim();
+    }
+  };
+
+  // Focus Control: Prevent focus jumping
+  useEffect(() => {
+    const editorInstance = editor.current;
+    if (editorInstance && editorInstance.jodit) {
+      editorInstance.jodit.events.on("focus", (e: Event) => {
+        // Prevent focus stealing by stopping event propagation
+        e.stopPropagation();
+      });
+    }
+  }, []);
+
   return (
-    <div className="p-6 bg-gray-100 min-h-screen">
+    <div className="p-6 min-h-screen box-container border-slate-400">
       <h1 className="text-3xl font-bold text-gray-800 mb-4">Blog Editor</h1>
 
       <div className="p-6 bg-white rounded-md shadow-md w-full">
@@ -118,10 +148,9 @@ const BlogEditor = () => {
             <input
               type="text"
               id="title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              ref={titleRef}
               placeholder="Enter blog title"
-              className="w-full px-5 py-2 border rounded-full focus:outline-none focus:ring focus:ring-teal-300"
+              className="w-full px-5 py-2 border rounded-full focus:outline-none focus:ring focus:ring-gray-400"
             />
           </div>
 
@@ -156,10 +185,9 @@ const BlogEditor = () => {
             <input
               type="text"
               id="author"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
+              ref={authorRef}
               placeholder="Enter author name"
-              className="w-full px-5 py-2 border rounded-full focus:outline-none focus:ring focus:ring-teal-300"
+              className="w-full px-5 py-2 border rounded-full focus:outline-none focus:ring focus:ring-gray-400"
             />
           </div>
 
@@ -172,11 +200,12 @@ const BlogEditor = () => {
               <input
                 type="text"
                 id="tags"
+                ref={tagInputRef}
                 value={tagInput}
                 onChange={(e) => setTagInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Add a tag and press Enter"
-                className="flex-grow px-5 py-2 border rounded-full focus:outline-none focus:ring focus:ring-teal-300"
+                className="flex-grow px-5 py-2 border rounded-full focus:outline-none focus:ring focus:ring-gray-400"
               />
               <button
                 onClick={addTag}
@@ -186,10 +215,23 @@ const BlogEditor = () => {
               </button>
             </div>
           </div>
+
+          <div>
+            <label className="block text-gray-700 font-bold mb-2" htmlFor="description">
+              Blog Description
+            </label>
+            <textarea
+              id="description"
+              ref={descriptionRef}
+              placeholder="Enter a brief description of the blog"
+              className="w-full px-5 py-2 border rounded-lg focus:outline-none focus:ring focus:ring-gray-400"
+              rows={3}
+            />
+          </div>
         </div>
 
-        {/* Display Tags */}
-        <div className="mt-4">
+        {/* Tags Display */}
+        <div className="my-4">
           <h3 className="text-gray-700 font-bold mb-2">Tags:</h3>
           <div className="flex flex-wrap gap-2">
             {tags.map((tag, index) => (
@@ -209,17 +251,19 @@ const BlogEditor = () => {
           </div>
         </div>
 
+        {/* Editor */}
         <div className="rounded-lg mb-4 mt-4">
           <JoditEditor
             ref={editor}
-            value={content}
+            value={contentRef.current}
             config={config}
-            onChange={(newContent: string) => setContent(newContent)}
+            onChange={handleEditorChange}
+            onBlur={handleEditorBlur}
           />
         </div>
       </div>
 
-      <div className="mt-4">
+      <div className="mt-4 flex justify-end">
         <button
           onClick={handleSave}
           className="px-4 py-2 bg-gray-700 text-white rounded-full hover:bg-gray-800"

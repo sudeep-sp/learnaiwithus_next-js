@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { getLatestBlogPosts } from '../lib/getLatestBlogPosts';
 import { BlogPost } from '../lib/@types/types';
+import Link from 'next/link';
 
 export default function BlogPosts() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -28,6 +29,7 @@ export default function BlogPosts() {
 
         <div className="mt-8 grid lg:grid-cols-[2fr_1fr] gap-8 -z-0">
           {/* Left column (main post with large image) */}
+          <Link href={`/blog/${mainPost.id}`}>
           <div className="space-y-4">
             <div className="relative aspect-w-16 aspect-h-9">
               <img
@@ -51,32 +53,43 @@ export default function BlogPosts() {
               </div>
             </div>
           </div>
+          </Link>
 
           {/* Right column (sidebar with two items) */}
           <div className="space-y-8">
             {sidePosts.map((post, index) => (
-              <div key={index}>
-                <img
-                  src={post.featured_img}
-                  alt={post.blog_title}
-                  className="w-full h-48 sm:h-32 object-cover rounded-lg -z-0"
-                />
-                <div className="mt-4">
-                  <p className="text-gray-400 sm:text-xs">{post.author}</p>
-                  <h4 className="sm:text-md font-semibold text-white mt-1">{post.blog_title}</h4>
-                  <div className="mt-2 space-x-2">
-                  {Array.isArray(post.tags.data) &&
-                      post.tags.data.slice(0,2).map((tag: string, idx: number) => (
-                        <span key={idx} className="bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full text-nowrap">
-                          {tag}
-                        </span>
-                      ))}
+              <div  key={index}>
+                  <Link href={`/blog/${post.id}`} >
+                  <img
+                    src={post.featured_img}
+                    alt={post.blog_title}
+                    className="w-full h-48 sm:h-32 object-cover rounded-lg -z-0"
+                  />
+                  <div className="mt-4">
+                    <p className="text-gray-400 sm:text-xs">{post.author}</p>
+                    <h4 className="sm:text-md font-semibold text-white mt-1">{post.blog_title}</h4>
+                    <div className="mt-2 space-x-2">
+                    {Array.isArray(post.tags.data) &&
+                        post.tags.data.slice(0,2).map((tag: string, idx: number) => (
+                          <span key={idx} className="bg-gray-200 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full text-nowrap">
+                            {tag}
+                          </span>
+                        ))}
+                    </div>
                   </div>
+              </Link>
                 </div>
-              </div>
             ))}
           </div>
         </div>
+        <div className="flex justify-center items-center bg-dark-blue">
+      <Link
+        href="/blogs"
+        className="px-5 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-full text-md font-medium shadow-lg transition"
+      >
+        More Blogs
+      </Link>
+    </div>
       </div>
     </section>
   );

@@ -94,7 +94,7 @@ const BlogLayout: NextPage = () => {
       <main className="flex-grow bg-gray-50">
         <LatestBlogs />
         <section className="py-16 pb-8">
-          <div className="max-w-7xl mx-auto px-4">
+          <div className="max-w-6xl mx-auto px-4">
             <h2 className="text-4xl font-bold text-center">
               Writings from our team
             </h2>
@@ -130,12 +130,13 @@ const BlogLayout: NextPage = () => {
                 {paginatedBlogs.map((blog, index) => (
                   <BlogCard
                     key={index}
+                    id={blog.id}
                     title={blog.blog_title} // Match BlogPost properties
                     author={blog.author}
-                    date={blog.title} // Assuming 'title' is the timestamp (update if needed)
                     description={blog.blog_description}
                     tags={extractTags(blog.tags)} // Extract tags from JSON
                     image={blog.featured_img}
+                    interactions={blog.interactions}
                   />
                 ))}
               </div>
