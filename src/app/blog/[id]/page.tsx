@@ -182,10 +182,16 @@ const Blog = () => {
           </div>
 
           <div className="max-w-4xl mx-auto mt-10">
-            <div id="blog_content"
-              className="px-0 py-4 text-gray-700 leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: blogData.blog_content.trim().replace(/\s+$/, "") }}
-            />
+          <div
+            id="blog_content"
+            className="px-0 py-4 text-gray-700 leading-relaxed"
+            dangerouslySetInnerHTML={{
+              __html: blogData.blog_content
+                .trim()
+                .replace(/\s+$/, "")
+                .replace(/<img/g, '<img style="max-width:100%;height:auto;display:block;margin:0 auto;"'),
+            }}
+          />
 
             <div className="px-6 py-4 flex items-center gap-6">
               <button

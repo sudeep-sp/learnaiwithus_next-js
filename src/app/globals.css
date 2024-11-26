@@ -91,3 +91,106 @@ body {
 	min-height: 100vh;
 	background-color: rgb(1, 8, 17) !important;
 }
+
+
+  
+  /* Specific styles for responsiveness */
+  @media (max-width: 1024px) {
+	/* Ensure parent container adapts to screen width */
+#blog_content span {
+	border: none !important; /* Remove the border */
+	display: block !important; /* Force block layout for span */
+	width: 100% !important; /* Stretch span to full width */
+	height: auto !important; /* Adjust height automatically */
+	overflow: hidden !important; /* Hide overflow content */
+  }
+  
+  /* Ensure the image inside adapts to its container */
+  #blog_content span img {
+	max-width: 100% !important; /* Make image responsive */
+	height: auto !important; /* Maintain aspect ratio */
+	display: block !important; /* Align images as block elements */
+	margin: 0 auto !important; /* Center the image */
+  }
+  
+  }
+  
+  @media (max-width: 768px) {
+	/* Ensure parent container adapts to screen width */
+#blog_content span {
+	border: none !important; /* Remove the border */
+	display: block !important; /* Force block layout for span */
+	width: 100% !important; /* Stretch span to full width */
+	height: auto !important; /* Adjust height automatically */
+	overflow: hidden !important; /* Hide overflow content */
+  }
+  
+  /* Ensure the image inside adapts to its container */
+  #blog_content span img {
+	max-width: 100% !important; /* Make image responsive */
+	height: auto !important; /* Maintain aspect ratio */
+	display: block !important; /* Align images as block elements */
+	margin: 0 auto !important; /* Center the image */
+  }
+  
+  }
+  
+
+/* Code Block Styling */
+#blog_content pre {
+	background-color: #2d2d2d; /* Dark background for code block */
+	padding: 20px; /* Padding for better readability */
+	border-radius: 5px; /* Rounded corners */
+	overflow-x: auto; /* Enable horizontal scroll for large code */
+	margin-bottom: 20px; /* Space below the code block */
+	color: #f8f8f2; /* Light text color */
+	font-family: "Courier New", Courier, monospace; /* Monospaced font for code */
+	white-space: pre-wrap; /* Wrap long lines of code */
+	word-wrap: break-word; /* Break long words */
+	font-size: 16px; /* Standard font size */
+	line-height: 1.5; /* Line height for readability */
+	box-sizing: border-box; /* Ensure padding does not affect the element's size */
+  }
+  
+  /* Specific styles for code inside the pre */
+  #blog_content pre code {
+	display: block;
+	white-space: pre-wrap; /* Ensure code wraps properly */
+	word-wrap: break-word; /* Break long words */
+	color: #f8f8f2; /* Light text color */
+	padding: 10px; /* Padding inside code block */
+	font-size: 16px; /* Font size for code */
+	line-height: 1.5; /* Adjust line height */
+	background-color: transparent; /* Transparent background for inline code */
+  }
+  
+  /* Inline Code Styling */
+  #blog_content code {
+	background-color: #f5f5f5; /* Light background for inline code */
+	color: #d14; /* Text color for inline code */
+	padding: 2px 5px;
+	border-radius: 4px;
+	font-size: 90%; /* Slightly smaller font for inline code */
+	white-space: nowrap; /* Prevent wrapping of inline code */
+  }
+  
+  
+  
+  /* Ensure the copy button is styled correctly */
+  .copy-button {
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	padding: 5px 10px;
+	background-color: #3498db;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: 14px;
+  }
+  
+  .copy-button:hover {
+	background-color: #2980b9;
+  }
+  

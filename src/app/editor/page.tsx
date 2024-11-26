@@ -104,10 +104,12 @@ const BlogEditor = () => {
     height: 600,
     toolbar: true,
     saveModeInSessionStorage: false,
-    autofocus: false, // Prevent auto-focus on the editor
+    autofocus: false,
     showCharsCounter: true,
     showWordsCounter: true,
   };
+  
+  
 
   const handleEditorChange = (newContent: string) => {
     // Ensure the content is trimmed when it changes
