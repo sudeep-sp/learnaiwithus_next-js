@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { supabase } from "@/app/lib/supabaseClient";
 import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import Navbar from "@/app/components/blogs/Navbar";
+import SidePanel from "@/app/components/blogs/SidePanel"; // Assuming you renamed PopupSlider to SidePanel
 import "../../globals.css";
 
 // Define the BlogPost interface
@@ -26,6 +27,11 @@ const Blog = () => {
   const [blogData, setBlogData] = useState<BlogPost | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [userInteraction, setUserInteraction] = useState<"like" | "dislike" | null>(null);
+  const [selectedText, setSelectedText] = useState<string | null>(null);
+  const [isSelecting, setIsSelecting] = useState(false); // Used to track if text is selected
+  const [response, setResponse] = useState<string | null>(null); // Store AI response
+  const [isResponseLoading, setIsResponseLoading] = useState(false); // Manage loading state for AI response
+  const [showSidePanel, setShowSidePanel] = useState(false); // State to control visibility of SidePanel
 
   useEffect(() => {
     if (!id) return;
@@ -67,9 +73,6 @@ const Blog = () => {
     }).format(date);
   };
 
-  
-
-
   const handleInteraction = async (type: "likes" | "dislikes") => {
     if (!blogData) return;
 
@@ -78,12 +81,10 @@ const Blog = () => {
 
     if (type === "likes") {
       if (userInteraction === "like") {
-        // Undo like
         updatedLikes--;
         setUserInteraction(null);
         localStorage.removeItem(`blog-interaction-${id}`);
       } else {
-        // Add like and undo dislike (if it exists)
         updatedLikes++;
         if (userInteraction === "dislike") {
           updatedDislikes--;
@@ -93,12 +94,10 @@ const Blog = () => {
       }
     } else if (type === "dislikes") {
       if (userInteraction === "dislike") {
-        // Undo dislike
         updatedDislikes--;
         setUserInteraction(null);
         localStorage.removeItem(`blog-interaction-${id}`);
       } else {
-        // Add dislike and undo like (if it exists)
         updatedDislikes++;
         if (userInteraction === "like") {
           updatedLikes--;
@@ -126,6 +125,89 @@ const Blog = () => {
       });
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleSelection = () => {
+    const selection = window.getSelection()?.toString().trim();
+    if (selection && selection.length > 0) {
+      setSelectedText(selection); // Save the selected text
+      setIsSelecting(true);  // Mark as text selected
+    } else {
+      setIsSelecting(false); // No selection, reset
+      setSelectedText(null);
+    }
+  };
+
+  const handleTextSelection = () => {
+    document.getElementById("blog_content")?.addEventListener("mouseup", handleSelection);
+    document.getElementById("blog_content")?.addEventListener("keyup", handleSelection);
+  };
+
+  useEffect(() => {
+    if (blogData) {
+      handleTextSelection();
+    }
+  }, [blogData]);
+
+  const highlightSelectedText = (content: string) => {
+    if (selectedText) {
+      const index = content.indexOf(selectedText);
+      if (index !== -1) {
+        const highlightedText = content.slice(0, index) + 
+          `<span class="bg-yellow-300">${selectedText}</span>` + 
+          content.slice(index + selectedText.length);
+        return highlightedText;
+      }
+    }
+    return content;
+  };
+
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setIsSelecting(false);
+      setSelectedText(null);
+    };
+
+    document.addEventListener("click", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
+
+  const askQuestion = async (question: string) => {
+    try {
+      setIsResponseLoading(true); // Set loading state to true
+      const response = await fetch("https://jointly-modern-mink.ngrok-free.app/ask/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question }),
+      });
+
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setResponse(data.response); // Set the response in state
+      
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setIsResponseLoading(false); // Reset loading state
+    }
+  };
+
+  const handleAskAI = async () => {
+    if (selectedText) {
+      setShowSidePanel(true); // Show the side panel when response is ready
+      await askQuestion(selectedText);
+    } else {
+      console.log("No text selected");
     }
   };
 
@@ -181,40 +263,49 @@ const Blog = () => {
             />
           </div>
 
-          <div className="max-w-4xl mx-auto mt-10">
           <div
             id="blog_content"
-            className="px-0 py-4 text-gray-700 leading-relaxed"
+            className="prose lg:prose-xl text-gray-800"
             dangerouslySetInnerHTML={{
-              __html: blogData.blog_content
-                .trim()
-                .replace(/\s+$/, "")
-                .replace(/<img/g, '<img style="max-width:100%;height:auto;display:block;margin:0 auto;"'),
+              __html: highlightSelectedText(blogData.blog_content),
             }}
           />
 
-            <div className="px-6 py-4 flex items-center gap-6">
-              <button
-                className={`flex items-center ${
-                  userInteraction === "like" ? "text-green-600" : "text-gray-700"
-                } hover:text-green-600 transition transform hover:scale-110`}
-                onClick={() => handleInteraction("likes")}
-              >
-                <FaThumbsUp className="mr-2" />
-                <span>{blogData.interactions.likes}</span>
-              </button>
+          <div className="px-6 py-4 flex items-center gap-6">
+            <button
+              className={`flex items-center ${
+                userInteraction === "like" ? "text-green-600" : "text-gray-700"
+              } hover:text-green-600 transition transform hover:scale-110`}
+              onClick={() => handleInteraction("likes")}
+            >
+              <FaThumbsUp className="mr-2" />
+              <span>{blogData.interactions.likes}</span>
+            </button>
 
+            <button
+              className={`flex items-center ${
+                userInteraction === "dislike" ? "text-red-600" : "text-gray-700"
+              } hover:text-red-600 transition transform hover:scale-110`}
+              onClick={() => handleInteraction("dislikes")}
+            >
+              <FaThumbsDown className="mr-2" />
+              <span>{blogData.interactions.dislikes}</span>
+            </button>
+          </div>
+
+          {isSelecting && selectedText && (
+            <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2">
               <button
-                className={`flex items-center ${
-                  userInteraction === "dislike" ? "text-red-600" : "text-gray-700"
-                } hover:text-red-600 transition transform hover:scale-110`}
-                onClick={() => handleInteraction("dislikes")}
+                className="px-6 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
+                onClick={handleAskAI}
               >
-                <FaThumbsDown className="mr-2" />
-                <span>{blogData.interactions.dislikes}</span>
+                Ask AI
               </button>
             </div>
-          </div>
+          )}
+
+          {/* SidePanel will be shown when the showSidePanel state is true */}
+          <SidePanel response={response} isLoading={isResponseLoading} isVisible={showSidePanel} close={setShowSidePanel}  />
         </div>
       </div>
     </>
