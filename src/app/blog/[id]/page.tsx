@@ -302,7 +302,7 @@ const Blog = () => {
           </div>
 
           {isSelecting && selectedText && (
-            <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2">
+            <div className="fixed bottom-24 md:bottom-6 left-1/2 transform -translate-x-1/2">
               <button
                 className="px-6 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
                 onClick={handleAskAI}
