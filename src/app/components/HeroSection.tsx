@@ -15,7 +15,7 @@ const HeroSection = () => {
   
 
   return (
-    <div className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-900">
+    <div className="relative h-[90vh] flex items-center justify-center overflow-hidden bg-gray-900 dark:bg-gray-900">
       {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-70 md:opacity-50 z-1"></div>
 
