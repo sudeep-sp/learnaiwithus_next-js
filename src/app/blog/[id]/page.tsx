@@ -238,8 +238,8 @@ const Blog = () => {
   return (
     <>
       <Navbar />
-      <div className="bg-gray-50 min-h-screen p-6 md:p-12">
-        <div className="max-w-4xl mx-auto overflow-hidden">
+      <div className="bg-gray-50 min-h-screen  md:p-12 relative">
+        <div className="max-w-4xl mx-auto overflow-hidden p-6">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
             {blogData.blog_title}
           </h1>
@@ -302,7 +302,7 @@ const Blog = () => {
           </div>
 
           {isSelecting && selectedText && (
-            <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2">
+            <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2">
               <button
                 className="px-6 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 text-white rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
                 onClick={handleAskAI}
@@ -313,8 +313,9 @@ const Blog = () => {
           )}
 
           {/* SidePanel will be shown when the showSidePanel state is true */}
-          <SidePanel response={response} isLoading={isResponseLoading} isVisible={showSidePanel} close={setShowSidePanel} question={selectedText}  />
+          
         </div>
+        <SidePanel response={response} isLoading={isResponseLoading} isVisible={showSidePanel} close={setShowSidePanel} question={selectedText}  />
       </div>
     </>
   );
