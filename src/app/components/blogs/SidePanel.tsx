@@ -20,7 +20,7 @@ const SidePanel: React.FC<SidePanelProps> = ({
     <div
       className={`fixed bg-white shadow-lg p-4 transform z-[100] transition-transform duration-300
         w-full md:w-96
-        h-[90%] md:h-full 
+        h-[60%] md:h-full 
         bottom-0 md:top-0 md:right-0
         ${isVisible ? "translate-y-0 md:translate-x-0" : "translate-y-full md:translate-x-full"}
         `}
