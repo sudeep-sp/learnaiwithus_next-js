@@ -136,43 +136,6 @@ body {
   }
   
 
-/* Code Block Styling */
-#blog_content pre {
-	background-color: #2d2d2d; /* Dark background for code block */
-	padding: 20px; /* Padding for better readability */
-	border-radius: 5px; /* Rounded corners */
-	overflow-x: auto; /* Enable horizontal scroll for large code */
-	margin-bottom: 20px; /* Space below the code block */
-	color: #f8f8f2; /* Light text color */
-	font-family: "Courier New", Courier, monospace; /* Monospaced font for code */
-	white-space: pre-wrap; /* Wrap long lines of code */
-	word-wrap: break-word; /* Break long words */
-	font-size: 16px; /* Standard font size */
-	line-height: 1.5; /* Line height for readability */
-	box-sizing: border-box; /* Ensure padding does not affect the element's size */
-  }
-  
-  /* Specific styles for code inside the pre */
-  #blog_content pre code {
-	display: block;
-	white-space: pre-wrap; /* Ensure code wraps properly */
-	word-wrap: break-word; /* Break long words */
-	color: #f8f8f2; /* Light text color */
-	padding: 10px; /* Padding inside code block */
-	font-size: 16px; /* Font size for code */
-	line-height: 1.5; /* Adjust line height */
-	background-color: transparent; /* Transparent background for inline code */
-  }
-  
-  /* Inline Code Styling */
-  #blog_content code {
-	background-color: #f5f5f5; /* Light background for inline code */
-	color: #d14; /* Text color for inline code */
-	padding: 2px 5px;
-	border-radius: 4px;
-	font-size: 90%; /* Slightly smaller font for inline code */
-	white-space: nowrap; /* Prevent wrapping of inline code */
-  }
   
   
   
@@ -215,4 +178,47 @@ body {
 	padding: 20px;
 	overflow-y: auto;
   }
+  
+
+  .codeblock-container {
+	position: relative;
+	background-color: #2d2d2d; /* Dark background for contrast */
+	border: 2px solid #4a5568; /* Sharp border */
+	border-radius: 4px;
+	padding: 16px;
+	margin: 16px 0;
+	overflow-x: auto; /* Allow horizontal scrolling for long code */
+  }
+  
+  .codeblock-container  {
+	margin: 0;
+	font-size: 14px; /* Adjust font size as needed */
+  }
+  
+  .codeblock-container  {
+	color: #ffffff; /* Default text color */
+	font-family: 'Courier New', Courier, monospace; /* Monospace font */
+  }
+  
+  /* Syntax highlighting custom colors (example for Prism.js) */
+  .token.comment, .token.prolog, .token.doctype, .token.cdata {
+	color: #6c757d; /* Gray color for comments */
+  }
+  
+  .token.keyword {
+	color: #ff7f50; /* Coral color for keywords */
+  }
+  
+  .token.string {
+	color: #98c379; /* Green for strings */
+  }
+  
+  .token.function {
+	color: #61afef; /* Light blue for functions */
+  }
+  
+  .token.operator {
+	color: #c678dd; /* Purple for operators */
+  }
+  
   

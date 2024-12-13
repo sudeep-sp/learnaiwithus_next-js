@@ -7,6 +7,8 @@ import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import Navbar from "@/app/components/blogs/Navbar";
 import SidePanel from "@/app/components/blogs/SidePanel"; // Assuming you renamed PopupSlider to SidePanel
 import "../../globals.css";
+import Prism from 'prismjs';
+import 'prismjs/themes/prism-tomorrow.css'; // Use your preferred Prism theme
 
 // Define the BlogPost interface
 export interface BlogPost {
@@ -59,11 +61,17 @@ const Blog = () => {
         console.error(error);
       } finally {
         setIsLoading(false);
+        const codeBlocks = document.querySelectorAll('.codeblock-container');
+        codeBlocks.forEach((block) => {
+          Prism.highlightElement(block); // Apply syntax highlighting to each block
+        });
       }
     };
 
     fetchBlogData();
   }, [id]);
+
+
 
   const formatDateTime = (dateString: string) => {
     const date = new Date(dateString);
@@ -305,7 +313,7 @@ const Blog = () => {
           )}
 
           {/* SidePanel will be shown when the showSidePanel state is true */}
-          <SidePanel response={response} isLoading={isResponseLoading} isVisible={showSidePanel} close={setShowSidePanel}  />
+          <SidePanel response={response} isLoading={isResponseLoading} isVisible={showSidePanel} close={setShowSidePanel} question={selectedText}  />
         </div>
       </div>
     </>
