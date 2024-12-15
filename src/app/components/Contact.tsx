@@ -7,7 +7,7 @@ const Contact = () => {
                     <p className="text-base leading-relaxed text-gray-400">
                         Reach out to us with any questions, ideas, or just to say hello! <br />
                     </p>
-                    <a href="mailto:abcd@gamil.com" className=" text-blue-500 underline">abcd@gamil.com</a>
+                    <a href="mailto:abcd@gamil.com" className=" text-blue-500 underline">learnaiwithus.codes@gmail.com</a>
             </div>
             <div className="text-center pb-10">
                 <h5 className="text-gray-200 text-sm">&copy; Copyright Reserved 2024</h5>
