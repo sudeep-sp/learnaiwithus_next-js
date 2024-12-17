@@ -10,13 +10,11 @@ const AboutSection = () => {
           exploring the exciting worlds of Artificial Intelligence and Data
           Science.
           <br />
-          <br />
           Our mission? To revolutionize the way students learn, share, and
           innovate in these cutting-edge fields. Powered by state-of-the-art
           RAG-based LLM explains terms instantly and AI-powered blogging agents
           create high-quality content in seconds, we’ve created a space where
           knowledge is accessible, interactive, and fun.
-          <br />
           <br />
           Join our collaborative community and explore the future of AI, one
           blog at a time!
