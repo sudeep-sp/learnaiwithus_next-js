@@ -6,14 +6,18 @@ const AboutSection = () => {
       <div className="about-section mt-10">
         <h2 className="text-2xl font-bold mb-4 text-white">About</h2>
         <p className="text-base leading-relaxed text-gray-400">
-          <b>LearnAIwithUs</b> is a platform by students, for students,
-          exploring the fields of Artificial Learning (ML & DL), and Data
-          Science. We’re here to make learning collaborative, fun, and open to
-          everyone. <br />
+          Welcome to <b>LearnAIwithUs</b>, the go-to platform for students
+          exploring the exciting worlds of Artificial Intelligence and Data
+          Science.
           <br />
-          We’re a small, dedicated team building this platform to create a
-          community where students can learn, share, and grow together in these
-          exciting fields.
+          Our mission? To revolutionize the way students learn, share, and
+          innovate in these cutting-edge fields. Powered by state-of-the-art
+          RAG-based LLM explains terms instantly and AI-powered blogging agents
+          create high-quality content in seconds, we’ve created a space where
+          knowledge is accessible, interactive, and fun.
+          <br />
+          Join our collaborative community and explore the future of AI, one
+          blog at a time!
         </p>
         <>
           <h2 className=" text-white mt-10">Team Members</h2>
