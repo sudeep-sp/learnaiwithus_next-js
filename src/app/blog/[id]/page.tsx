@@ -187,7 +187,7 @@ const Blog = () => {
   const askQuestion = async (question: string) => {
     try {
       setIsResponseLoading(true); // Set loading state to true
-      const response = await fetch("https://5896-2a02-3100-1a39-b400-ac51-69ca-39dd-f36b.ngrok-free.app/ask/", {
+      const response = await fetch("https://1de8-2a01-c22-34ad-3000-800d-b9b1-72f5-a408.ngrok-free.app/ask/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

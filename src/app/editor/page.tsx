@@ -35,7 +35,7 @@ const BlogEditor = () => {
   
       try {
         // Simulating API call - Replace with actual API endpoint
-        const response = await fetch("https://894d-2a02-3100-1a39-b400-ac51-69ca-39dd-f36b.ngrok-free.app/generate_blog/", {
+        const response = await fetch("https://f2b8-2a01-c22-34ad-3000-800d-b9b1-72f5-a408.ngrok-free.app/generate_blog/", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ topic: searchQuery }),
