@@ -7,8 +7,8 @@ import { FaThumbsUp, FaThumbsDown } from "react-icons/fa";
 import Navbar from "@/app/components/blogs/Navbar";
 import SidePanel from "@/app/components/blogs/SidePanel"; // Assuming you renamed PopupSlider to SidePanel
 import "../../globals.css";
-import Prism from 'prismjs';
-import 'prismjs/themes/prism-tomorrow.css'; // Use your preferred Prism theme
+import Prism from "prismjs";
+import "prismjs/themes/prism-tomorrow.css"; // Use your preferred Prism theme
 
 // Define the BlogPost interface
 export interface BlogPost {
@@ -28,7 +28,9 @@ const Blog = () => {
   const { id } = useParams(); // Get the dynamic route parameter
   const [blogData, setBlogData] = useState<BlogPost | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [userInteraction, setUserInteraction] = useState<"like" | "dislike" | null>(null);
+  const [userInteraction, setUserInteraction] = useState<
+    "like" | "dislike" | null
+  >(null);
   const [selectedText, setSelectedText] = useState<string | null>(null);
   const [isSelecting, setIsSelecting] = useState(false); // Used to track if text is selected
   const [response, setResponse] = useState<string | null>(null); // Store AI response
@@ -61,7 +63,7 @@ const Blog = () => {
         console.error(error);
       } finally {
         setIsLoading(false);
-        const codeBlocks = document.querySelectorAll('.codeblock-container');
+        const codeBlocks = document.querySelectorAll(".codeblock-container");
         codeBlocks.forEach((block) => {
           Prism.highlightElement(block); // Apply syntax highlighting to each block
         });
@@ -70,8 +72,6 @@ const Blog = () => {
 
     fetchBlogData();
   }, [id]);
-
-
 
   const formatDateTime = (dateString: string) => {
     const date = new Date(dateString);
@@ -140,7 +140,7 @@ const Blog = () => {
     const selection = window.getSelection()?.toString().trim();
     if (selection && selection.length > 0) {
       setSelectedText(selection); // Save the selected text
-      setIsSelecting(true);  // Mark as text selected
+      setIsSelecting(true); // Mark as text selected
     } else {
       setIsSelecting(false); // No selection, reset
       setSelectedText(null);
@@ -148,8 +148,12 @@ const Blog = () => {
   };
 
   const handleTextSelection = () => {
-    document.getElementById("blog_content")?.addEventListener("mouseup", handleSelection);
-    document.getElementById("blog_content")?.addEventListener("keyup", handleSelection);
+    document
+      .getElementById("blog_content")
+      ?.addEventListener("mouseup", handleSelection);
+    document
+      .getElementById("blog_content")
+      ?.addEventListener("keyup", handleSelection);
   };
 
   useEffect(() => {
@@ -162,8 +166,9 @@ const Blog = () => {
     if (selectedText) {
       const index = content.indexOf(selectedText);
       if (index !== -1) {
-        const highlightedText = content.slice(0, index) + 
-          `<span class="bg-yellow-300">${selectedText}</span>` + 
+        const highlightedText =
+          content.slice(0, index) +
+          `<span class="bg-yellow-300">${selectedText}</span>` +
           content.slice(index + selectedText.length);
         return highlightedText;
       }
@@ -187,14 +192,16 @@ const Blog = () => {
   const askQuestion = async (question: string) => {
     try {
       setIsResponseLoading(true); // Set loading state to true
-      const response = await fetch("https://1de8-2a01-c22-34ad-3000-800d-b9b1-72f5-a408.ngrok-free.app/ask/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ question }),
-      });
-
+      const response = await fetch(
+        "https://eddb-2a01-c23-64a0-6100-3d11-eab-8132-9640.ngrok-free.app/ask/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ question }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -202,7 +209,6 @@ const Blog = () => {
 
       const data = await response.json();
       setResponse(data.response); // Set the response in state
-      
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
@@ -313,9 +319,14 @@ const Blog = () => {
           )}
 
           {/* SidePanel will be shown when the showSidePanel state is true */}
-          
         </div>
-        <SidePanel response={response} isLoading={isResponseLoading} isVisible={showSidePanel} close={setShowSidePanel} question={selectedText}  />
+        <SidePanel
+          response={response}
+          isLoading={isResponseLoading}
+          isVisible={showSidePanel}
+          close={setShowSidePanel}
+          question={selectedText}
+        />
       </div>
     </>
   );

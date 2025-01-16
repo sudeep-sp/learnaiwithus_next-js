@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import Navbar from "../components/blogs/Navbar";
 import "../globals.css";
@@ -16,11 +16,14 @@ const AIEditor = () => {
 
     try {
       // Simulating API call - Replace with actual API endpoint
-      const response = await fetch("https://jointly-modern-mink.ngrok-free.app/generate_blog/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ topic: searchQuery }),
-      });
+      const response = await fetch(
+        "https://0f22-2a01-c23-64a0-6100-3d11-eab-8132-9640.ngrok-free.app/generate_blog/",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ topic: searchQuery }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch data");
@@ -29,7 +32,7 @@ const AIEditor = () => {
       const data = await response.json();
       setResponseData(data.result.raw || "No response received."); // Update response data
     } catch (error) {
-        console.log(error)
+      console.log(error);
       setResponseData("Error: Unable to fetch data. Try again."); // Handle error
     } finally {
       setIsLoading(false); // Remove loading state
@@ -59,15 +62,17 @@ const AIEditor = () => {
 
         {/* Response Data */}
         <div className="boxed-container">
-            <div className="w-full p-4 border border-gray-200 bg-white shadow rounded">
+          <div className="w-full p-4 border border-gray-200 bg-white shadow rounded">
             {isLoading ? (
-                <p className="text-gray-500">Fetching data...</p>
+              <p className="text-gray-500">Fetching data...</p>
             ) : responseData ? (
-                <p className="text-gray-700">{responseData}</p>
+              <p className="text-gray-700">{responseData}</p>
             ) : (
-                <p className="text-gray-500">Enter a query and click Generate to see the result.</p>
+              <p className="text-gray-500">
+                Enter a query and click Generate to see the result.
+              </p>
             )}
-            </div>
+          </div>
         </div>
       </div>
     </div>
