@@ -23,37 +23,40 @@ const BlogEditor = () => {
   const [tagInput, setTagInput] = useState("");
   const [loading, setLoading] = useState(false);
 
-    const [searchQuery, setSearchQuery] = useState(""); // State for search input
-    const [responseData, setResponseData] = useState<string | null>(null); // State for API response
-    const [isLoading, setIsLoading] = useState(false); // State for loading spinner
+  const [searchQuery, setSearchQuery] = useState(""); // State for search input
+  const [responseData, setResponseData] = useState<string | null>(null); // State for API response
+  const [isLoading, setIsLoading] = useState(false); // State for loading spinner
 
-    const handleGenerate = async () => {
-      if (!searchQuery.trim()) return; // Avoid empty requests
-  
-      setIsLoading(true); // Show loading state
-      setResponseData(null); // Clear previous response
-  
-      try {
-        // Simulating API call - Replace with actual API endpoint
-        const response = await fetch("https://f2b8-2a01-c22-34ad-3000-800d-b9b1-72f5-a408.ngrok-free.app/generate_blog/", {
+  const handleGenerate = async () => {
+    if (!searchQuery.trim()) return; // Avoid empty requests
+
+    setIsLoading(true); // Show loading state
+    setResponseData(null); // Clear previous response
+
+    try {
+      // Simulating API call - Replace with actual API endpoint
+      const response = await fetch(
+        "https://0f22-2a01-c23-64a0-6100-3d11-eab-8132-9640.ngrok-free.app/generate_blog/",
+        {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ topic: searchQuery }),
-        });
-  
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
         }
-  
-        const data = await response.json();
-        setResponseData(data.result.raw || "No response received."); // Update response data
-      } catch (error) {
-          console.log(error)
-        setResponseData("Error: Unable to fetch data. Try again."); // Handle error
-      } finally {
-        setIsLoading(false); // Remove loading state
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch data");
       }
-    };
+
+      const data = await response.json();
+      setResponseData(data.result.raw || "No response received."); // Update response data
+    } catch (error) {
+      console.log(error);
+      setResponseData("Error: Unable to fetch data. Try again."); // Handle error
+    } finally {
+      setIsLoading(false); // Remove loading state
+    }
+  };
 
   const addTag = () => {
     if (tagInput.trim() && !tags.includes(tagInput)) {
@@ -117,7 +120,9 @@ const BlogEditor = () => {
       };
 
       // Insert data into the database
-      const { error: insertError } = await supabase.from("blogs").insert(blogPost);
+      const { error: insertError } = await supabase
+        .from("blogs")
+        .insert(blogPost);
 
       if (insertError) throw insertError;
 
@@ -140,8 +145,6 @@ const BlogEditor = () => {
     showCharsCounter: true,
     showWordsCounter: true,
   };
-  
-  
 
   const handleEditorChange = (newContent: string) => {
     // Ensure the content is trimmed when it changes
@@ -171,12 +174,17 @@ const BlogEditor = () => {
       <h1 className="text-3xl font-bold text-gray-800 mb-4">Blog Editor</h1>
 
       <div className="p-6 bg-white rounded-md shadow-md w-full">
-        <h2 className="text-2xl font-bold mb-6 text-center">Create a Blog Post</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">
+          Create a Blog Post
+        </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {/* Blog Title */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="title">
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="title"
+            >
               Blog Title
             </label>
             <input
@@ -190,7 +198,10 @@ const BlogEditor = () => {
 
           {/* Featured Image */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="featured-image">
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="featured-image"
+            >
               Featured Image
             </label>
             <div className="flex items-center">
@@ -213,7 +224,10 @@ const BlogEditor = () => {
 
           {/* Author Name */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="author">
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="author"
+            >
               Author Name
             </label>
             <input
@@ -227,7 +241,10 @@ const BlogEditor = () => {
 
           {/* Tags */}
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="tags">
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="tags"
+            >
               Tags
             </label>
             <div className="flex items-center gap-2">
@@ -251,7 +268,10 @@ const BlogEditor = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="description">
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="description"
+            >
               Blog Description
             </label>
             <textarea
@@ -264,7 +284,10 @@ const BlogEditor = () => {
           </div>
 
           <div>
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="description">
+            <label
+              className="block text-gray-700 font-bold mb-2"
+              htmlFor="description"
+            >
               Generate a Blog
             </label>
             <div className="flex items-center space-x-5">
@@ -308,21 +331,19 @@ const BlogEditor = () => {
 
         {/* Editor */}
         <div className="rounded-lg mb-4 mt-4">
-        <JoditEditor
-          ref={editor}
-          value={
-            isLoading
-              ? "<p class='text-gray-500'>Fetching data...</p>"
-              : responseData
-              ? responseData.replace(/^<p>```html[\s\S]*?```<\/p>$/g, '')
-              : "<p class='text-gray-500'>Content of the blog</p>"
-          }
-          config={config}
-          onChange={handleEditorChange}
-          onBlur={handleEditorBlur}
-        />
-
-
+          <JoditEditor
+            ref={editor}
+            value={
+              isLoading
+                ? "<p class='text-gray-500'>Fetching data...</p>"
+                : responseData
+                ? responseData.replace(/^<p>```html[\s\S]*?```<\/p>$/g, "")
+                : "<p class='text-gray-500'>Content of the blog</p>"
+            }
+            config={config}
+            onChange={handleEditorChange}
+            onBlur={handleEditorBlur}
+          />
         </div>
       </div>
 
